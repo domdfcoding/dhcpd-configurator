@@ -1,0 +1,22 @@
+# Configuration for 'repo_helper' (https://github.com/repo-helper/repo_helper)
+---
+modname: 'dhcpd-configurator'
+copyright_years: '2023'
+author: 'Dominic Davis-Foster'
+email: 'dominic@davis-foster.co.uk'
+username: 'domdfcoding'
+version: '0.0.0'
+license: 'MIT'
+short_desc: 'Python utility to generate isc-dhcp-server configuration files.'
+
+enable_conda: false
+enable_docs: false
+enable_tests: false
+on_pypi: false
+use_whey: true
+
+python_versions:
+ - 3.8
+ - 3.9
+ - "3.10"
+ - "3.11"

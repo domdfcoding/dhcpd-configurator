@@ -1,0 +1,58 @@
+[build-system]
+requires = [ "whey",]
+build-backend = "whey"
+
+[project]
+name = "dhcpd-configurator"
+version = "0.0.0"
+description = "Python utility to generate isc-dhcp-server configuration files."
+readme = "README.rst"
+keywords = []
+dynamic = [ "requires-python", "classifiers", "dependencies",]
+
+[[project.authors]]
+name = "Dominic Davis-Foster"
+email = "dominic@davis-foster.co.uk"
+
+
+[project.license]
+file = "LICENSE"
+
+[project.urls]
+Homepage = "https://github.com/domdfcoding/dhcpd-configurator"
+"Issue Tracker" = "https://github.com/domdfcoding/dhcpd-configurator/issues"
+"Source Code" = "https://github.com/domdfcoding/dhcpd-configurator"
+
+[tool.whey]
+base-classifiers = []
+python-versions = [ "3.8", "3.9", "3.10", "3.11",]
+python-implementations = [ "CPython",]
+platforms = [ "Windows", "macOS", "Linux",]
+license-key = "MIT"
+package = "dhcpd_configurator"
+
+[tool.importcheck]
+
+[tool.mypy]
+python_version = "3.8"
+namespace_packages = true
+check_untyped_defs = true
+warn_unused_ignores = true
+no_implicit_optional = true
+show_error_codes = true
+
+[tool.snippet-fmt]
+directives = [ "code-block",]
+
+[tool.dependency-dash."requirements.txt"]
+order = 10
+
+[tool.snippet-fmt.languages.python]
+reformat = true
+
+[tool.snippet-fmt.languages.TOML]
+reformat = true
+
+[tool.snippet-fmt.languages.ini]
+
+[tool.snippet-fmt.languages.json]
