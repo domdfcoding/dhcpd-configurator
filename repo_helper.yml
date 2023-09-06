@@ -11,12 +11,15 @@ short_desc: 'Python utility to generate isc-dhcp-server configuration files.'
 
 enable_conda: false
 enable_docs: false
-enable_tests: false
 on_pypi: false
 use_whey: true
+min_coverage: 87
 
 python_versions:
  - 3.8
  - 3.9
  - "3.10"
  - "3.11"
+
+manifest_additional:
+  - recursive-include dhcpd_configurator/templates/ *.template

@@ -16,7 +16,7 @@ dhcpd-configurator
 	:widths: 10 90
 
 	* - Tests
-	  - |actions_linux| |actions_windows| |actions_macos|
+	  - |actions_linux| |actions_windows| |actions_macos| |coveralls|
 	* - Activity
 	  - |commits-latest| |commits-since| |maintained|
 	* - QA
@@ -47,6 +47,10 @@ dhcpd-configurator
 .. |requires| image:: https://dependency-dash.repo-helper.uk/github/domdfcoding/dhcpd-configurator/badge.svg
 	:target: https://dependency-dash.repo-helper.uk/github/domdfcoding/dhcpd-configurator/
 	:alt: Requirements Status
+
+.. |coveralls| image:: https://img.shields.io/coveralls/github/domdfcoding/dhcpd-configurator/master?logo=coveralls
+	:target: https://coveralls.io/github/domdfcoding/dhcpd-configurator?branch=master
+	:alt: Coverage
 
 .. |codefactor| image:: https://img.shields.io/codefactor/grade/github/domdfcoding/dhcpd-configurator?logo=codefactor
 	:target: https://www.codefactor.io/repository/github/domdfcoding/dhcpd-configurator

@@ -1,0 +1,5 @@
+attrs>=23.1.0
+domdf-python-tools>=3.6.1
+enum-tools>=0.10.0
+jinja2>=3.1.2
+mac-vendor-lookup>=0.1.12

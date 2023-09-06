@@ -1,0 +1,40 @@
+- - hostname: evolis
+    ip: '3'
+    mac: 00:1A:FD:06:B1:CA
+    type: 5
+  - EVOLIS
+- - hostname: mx490
+    ip: '12'
+    mac: F8:0D:60:DC:76:9A
+    type: 5
+  - CANON INC.
+- - hostname: mono-printer
+    ip: '17'
+    mac: 30:05:5C:31:10:D0
+    type: 5
+  - Brother industries, LTD.
+- - hostname: hp-printer
+    ip: '33'
+    mac: C4:34:6B:D7:06:EE
+    type: 5
+  - Hewlett Packard
+- - hostname: dominic-stream
+    ip: '86'
+    mac: C4:8E:8F:8F:30:39
+    type: 2
+  - Hon Hai Precision Ind. Co.,Ltd.
+- - hostname: argon
+    ip: '87'
+    mac: dc:a6:32:ba:59:fc
+    type: 2
+  - Raspberry Pi Trading Ltd
+- - hostname: cluster-1
+    ip: '88'
+    mac: b8:27:eb:cc:ad:d9
+    type: 2
+  - Raspberry Pi Foundation
+- - hostname: cluster-2
+    ip: '89'
+    mac: b8:27:eb:31:6c:e5
+    type: 2
+  - Raspberry Pi Foundation

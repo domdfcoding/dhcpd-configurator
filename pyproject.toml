@@ -30,8 +30,7 @@ python-implementations = [ "CPython",]
 platforms = [ "Windows", "macOS", "Linux",]
 license-key = "MIT"
 package = "dhcpd_configurator"
-
-[tool.importcheck]
+additional-files = [ "recursive-include dhcpd_configurator/templates/ *.template",]
 
 [tool.mypy]
 python_version = "3.8"
@@ -46,6 +45,13 @@ directives = [ "code-block",]
 
 [tool.dependency-dash."requirements.txt"]
 order = 10
+
+[tool.dependency-dash."tests/requirements.txt"]
+order = 20
+include = false
+
+[tool.dep_checker.name_mapping]
+attrs = "attr"
 
 [tool.snippet-fmt.languages.python]
 reformat = true

@@ -1,0 +1,146 @@
+#
+# Attention: If /etc/ltsp/dhcpd.conf exists, that will be used as
+# configuration file instead of this file.
+#
+
+# So that the vendor-class-identifier shows in dhcpd.leases file
+set vendor-string = option vendor-class-identifier;
+
+# The ddns-updates-style parameter controls whether or not the server will
+# attempt to do a DNS update when a lease is confirmed. We default to the
+# behavior of the version 2 packages ('none', since DHCP v2 didn't
+# have support for DDNS.)
+ddns-update-style {{ddns_update_style|default("none")}};
+
+# option definitions common to all supported networks...
+#option domain-name "example.org";
+#option domain-name-servers ns1.example.org, ns2.example.org;
+
+default-lease-time {{default_lease_time|default(3600)}};
+max-lease-time {{max_lease_time|default(7200)}};
+
+# If this DHCP server is the official DHCP server for the local
+# network, the authoritative directive should be uncommented.
+{% if authoritative %}{% if not authoritative %}#{% endif %}authoritative;{% else %}#authoritative;{% endif %}
+
+# Use this to send dhcp log messages to a different log file (you also
+# have to hack syslog.conf to complete the redirection).
+log-facility local7;
+
+# No service will be given on this subnet, but declaring it helps the
+# DHCP server to understand the network topology.
+
+#subnet 10.152.187.0 netmask 255.255.255.0 {
+#}
+
+# This is a very basic subnet declaration.
+
+subnet {{subnet|default("192.168.0.")}}0 netmask 255.255.255.0 {
+   option routers	{{router|default("192.168.0.1")}};
+   option subnet-mask	{{subnet_mask|default("255.255.255.0")}};
+   option domain-name-servers {{domain_name_servers|default("192.168.0.1")}};
+   option broadcast-address {{subnet|default("192.168.0.")}}255;
+   range {{ip_range|default("192.168.0.100 192.168.0.255")}};
+   {% if domain_name %}
+   option domain-name "{{domain_name}}";
+   {% endif %}
+}
+
+# Hosts which require special configuration options can be listed in
+# host statements.   If no address is specified, the address will be
+# allocated dynamically (if possible), but the host-specific information
+# will still come from the host declaration.
+
+# Fixed IP addresses can also be specified for hosts.   These addresses
+# should not also be listed as being available for dynamic assignment.
+# Hosts for which fixed IP addresses have been specified can boot using
+# BOOTP or DHCP.   Hosts for which no fixed address is specified can only
+# be booted with DHCP, unless there is an address range on the subnet
+# to which a BOOTP client is connected
+
+{% for device in devices %}{% if device.ip %}{{ dhcp_entry(device, subnet) }}
+{% endif %}{% endfor %}
+
+# You can declare a class of clients and then do address allocation
+# based on that.   The example below shows a case where all clients
+# in a certain class get addresses on the 10.17.224/24 subnet, and all
+# other clients get addresses on the 10.0.29/24 subnet.
+
+#class "foo" {
+#  match if substring (option vendor-class-identifier, 0, 4) = "SUNW";
+#}
+
+#shared-network 224-29 {
+#  subnet 10.17.224.0 netmask 255.255.255.0 {
+#    option routers rtr-224.example.org;
+#  }
+#  subnet 10.0.29.0 netmask 255.255.255.0 {
+#    option routers rtr-29.example.org;
+#  }
+#  pool {
+#    allow members of "foo";
+#    range 10.17.224.10 10.17.224.250;
+#  }
+#  pool {
+#    deny members of "foo";
+#    range 10.0.29.10 10.0.29.230;
+#  }
+#}
+
+{% if mqtt_telemetry %}
+# Set `/usr/local/bin/dhcpmon` as follows, owned by root and globally executable:
+# #!/usr/bin/python3
+#
+# import sys
+# import datetime
+# import json
+# import subprocess
+#
+# status, ip_address, mac_address, hostname, *args = sys.argv[1:]
+# topic = f"DHCP/{hostname}/{status}"
+# mac_address = ":".join([x.rjust(2, '0') for x in mac_address.split(":")])
+# message = {
+# 	"Time": datetime.datetime.now().strftime("%Y-%m-%dT%X"),
+# 	"IP": ip_address,
+# 	"MAC": mac_address,
+# 	"Hostname": hostname,
+# 	"Args": args,
+# }
+#
+# command = ["/usr/bin/mosquitto_pub", "-t", topic, "-m", json.dumps(message), "-t", mqtt_telemetry, "--retain"]
+# subprocess.call(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+# Add the following to `/etc/apparmor.d/usr.sbin.dhcpd`, and run `sudo service apparmor restart`
+#  # Script for sending info to MQTT, and dependencies
+#  /usr/local/bin/dhcpmon rix,
+#  /bin/date rix,
+#  /usr/bin/mosquitto_pub rix,
+#  /usr/bin/python3 rix,
+
+
+
+set ClientHost = pick-first-value(
+    host-decl-name,
+    option fqdn.hostname,
+    option host-name,
+    "none"
+);
+
+on commit {
+    set clip = binary-to-ascii(10, 8, ".", leased-address);
+    set clhw = binary-to-ascii(16, 8, ":", substring(hardware, 1, 6));
+    execute("/usr/local/bin/dhcpmon", "commit", clip, clhw, ClientHost);
+}
+
+on release {
+    set clip = binary-to-ascii(10, 8, ".", leased-address);
+    set clhw = binary-to-ascii(16, 8, ":", substring(hardware, 1, 6));
+    execute("/usr/local/bin/dhcpmon", "release", clip, clhw, ClientHost);
+}
+
+on expiry {
+    set clip = binary-to-ascii(10, 8, ".", leased-address);
+    set clhw = binary-to-ascii(16, 8, ":", substring(hardware, 1, 6));
+    execute("/usr/local/bin/dhcpmon", "expiry", clip, clhw, ClientHost);
+}
+{% endif %}
