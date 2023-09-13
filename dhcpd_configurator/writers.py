@@ -64,6 +64,7 @@ def write_dhcpd_conf(
 		domain_name_servers: str = "192.168.0.1",
 		ip_range: str = "192.168.0.100 192.168.0.255",
 		domain_name: Optional[str] = None,
+		mqtt_telemetry: bool = True,
 		) -> None:
 	"""
 	Write the generated `/etc/dhcp/dhcpd.conf` file to disk.
@@ -80,6 +81,7 @@ def write_dhcpd_conf(
 	:param domain_name_servers:
 	:param ip_range:
 	:param domain_name:
+	:param mqtt_telemetry:
 	"""
 
 	subnet = subnet.strip('.') + '.'
@@ -96,6 +98,7 @@ def write_dhcpd_conf(
 			domain_name_servers=domain_name_servers,
 			ip_range=ip_range,
 			domain_name=domain_name,
+			mqtt_telemetry=mqtt_telemetry,
 			dhcp_entry=_dhcp_entry,
 			)
 	PathPlus(filename).write_clean(rendered)
