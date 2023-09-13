@@ -1,7 +1,7 @@
 127.0.0.1       localhost
 127.0.1.1       {{socket.gethostname()}}
 {% for device in devices %}{% if device.ip %}
-{{ subnet }}{{ device.ip }}  {{self.hostname}}{% endif %}{% endfor %}
+{{ subnet }}{{ device.ip }}  {{device.hostname}}{% endif %}{% endfor %}
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     ip6-localhost ip6-loopback
