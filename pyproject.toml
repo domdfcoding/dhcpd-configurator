@@ -14,7 +14,6 @@ dynamic = [ "requires-python", "classifiers", "dependencies",]
 name = "Dominic Davis-Foster"
 email = "dominic@davis-foster.co.uk"
 
-
 [project.license]
 file = "LICENSE"
 
@@ -43,16 +42,6 @@ show_error_codes = true
 [tool.snippet-fmt]
 directives = [ "code-block",]
 
-[tool.dependency-dash."requirements.txt"]
-order = 10
-
-[tool.dependency-dash."tests/requirements.txt"]
-order = 20
-include = false
-
-[tool.dep_checker.name_mapping]
-attrs = "attr"
-
 [tool.snippet-fmt.languages.python]
 reformat = true
 
@@ -62,3 +51,13 @@ reformat = true
 [tool.snippet-fmt.languages.ini]
 
 [tool.snippet-fmt.languages.json]
+
+[tool.dependency-dash."requirements.txt"]
+order = 10
+
+[tool.dependency-dash."tests/requirements.txt"]
+order = 20
+include = false
+
+[tool.dep_checker.name_mapping]
+attrs = "attr"
