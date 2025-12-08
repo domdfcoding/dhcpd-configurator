@@ -32,7 +32,7 @@ from typing import Any, Dict, Union
 # 3rd party
 import attr
 from enum_tools import IntEnum
-from mac_vendor_lookup import MacLookup  # type: ignore[import]
+from mac_vendor_lookup import MacLookup  # type: ignore[import-untyped]
 
 # this package
 from dhcpd_configurator.utils import parse_mac
