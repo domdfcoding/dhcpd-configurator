@@ -17,7 +17,7 @@ def test_dhcpd_conf(
 		tmp_pathplus: PathPlus,
 		devices: List[Device],
 		advanced_file_regression: AdvancedFileRegressionFixture,
-		mqtt_telemetry: bool
+		mqtt_telemetry: bool,
 		):
 
 	write_dhcpd_conf(
